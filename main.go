@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/caarlos0/karmahub/internal/karma"
+	"github.com/caarlos0/karmahub/internal/search"
 	"github.com/google/go-github/github"
 	"golang.org/x/oauth2"
 )
@@ -15,8 +16,10 @@ func main() {
 	)
 	tc := oauth2.NewClient(oauth2.NoContext, ts)
 	client := github.NewClient(tc)
-	crs, _ := karma.Reviews(client, "caarlos0", "user:ContaAzul")
+	fn := search.Github(client)
+
+	crs, _ := karma.Reviews(fn, "caarlos0", "user:ContaAzul")
 	fmt.Println("Reviews:", crs)
-	prs, _ := karma.Pulls(client, "caarlos0", "user:ContaAzul")
-	fmt.Println("Pulls:", prs)
+	prs, _ := karma.Authors(fn, "caarlos0", "user:ContaAzul")
+	fmt.Println("Authors:", prs)
 }

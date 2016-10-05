@@ -1,27 +1,26 @@
 package karma
 
 import (
-	"log"
 	"time"
 
-	"github.com/google/go-github/github"
+	"github.com/caarlos0/karmahub/internal/search"
 )
 
 // MONTHS of data gathered
 const MONTHS = 3
 
-// Pulls in each of the last MONTHS
-func Pulls(client *github.Client, login, filter string) (result []int, err error) {
-	return totals(client, filter+" author:"+login)
+// Authors in each of the last MONTHS
+func Authors(search search.Fn, login, filter string) (result []int, err error) {
+	return totals(search, filter+" author:"+login)
 }
 
 // Reviews in each of the last MONTHS
-func Reviews(client *github.Client, login, filter string) (result []int, err error) {
-	all, err := totals(client, filter+" commenter:"+login)
+func Reviews(search search.Fn, login, filter string) (result []int, err error) {
+	mine, err := totals(search, filter+" commenter:"+login+" author:"+login)
 	if err != nil {
 		return result, err
 	}
-	mine, err := totals(client, filter+" commenter:"+login+" author:"+login)
+	all, err := totals(search, filter+" commenter:"+login)
 	if err != nil {
 		return result, err
 	}
@@ -31,11 +30,11 @@ func Reviews(client *github.Client, login, filter string) (result []int, err err
 	return result, err
 }
 
-func totals(client *github.Client, search string) (result []int, err error) {
+func totals(search search.Fn, query string) (result []int, err error) {
 	var counts []int
 	for i := 1; i <= MONTHS; i++ {
 		d := time.Now().AddDate(0, i*-1, 0).Format("2006-01-02")
-		count, err := total(client, search+" created:>"+d)
+		count, err := search(query + " created:>" + d)
 		if err != nil {
 			return result, err
 		}
@@ -46,24 +45,4 @@ func totals(client *github.Client, search string) (result []int, err error) {
 		result = append(result, counts[i]-counts[i-1])
 	}
 	return result, err
-}
-
-func total(client *github.Client, search string) (count int, err error) {
-	result, _, err := client.Search.Issues(
-		search,
-		&github.SearchOptions{
-			ListOptions: github.ListOptions{
-				PerPage: 1,
-			},
-		},
-	)
-	if _, ok := err.(*github.RateLimitError); ok {
-		log.Println("Rate limit, waiting 10s...")
-		time.Sleep(time.Second * 10)
-		return total(client, search)
-	}
-	if result.Total != nil {
-		count = *result.Total
-	}
-	return count, err
 }

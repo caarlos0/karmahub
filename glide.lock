@@ -1,8 +1,39 @@
-hash: 24043b09dc4f359f507dbcd8f4b4f879b6a826d1de9511b8afb80b4787f6046a
-updated: 2016-10-04T22:43:28.691830205-03:00
+hash: 5ab7834d2c8970a7111554e592ebecb149bbf96f0b87522a804760d7eb5df8da
+updated: 2016-10-04T23:53:51.488716844-03:00
 imports:
+- name: github.com/golang/protobuf
+  version: df1d3ca07d2d07bba352d5b73c4313b4e2a6203e
+  subpackages:
+  - proto
 - name: github.com/google/go-github
   version: 3e246d29992beb5a5d2fc253adebea86997c45b0
   subpackages:
   - '...'
-testImports: []
+  - github
+- name: github.com/google/go-querystring
+  version: 9235644dd9e52eeae6fa48efd539fdc351a0af53
+  subpackages:
+  - query
+- name: golang.org/x/net
+  version: 6d3beaea10370160dea67f5c9327ed791afd5389
+  subpackages:
+  - context
+- name: golang.org/x/oauth2
+  version: 3c3a985cb79f52a3190fbc056984415ca6763d01
+  subpackages:
+  - internal
+- name: google.golang.org/appengine
+  version: 926995697fa8241be2dc73eb318666e24f44ed51
+  subpackages:
+  - internal
+  - internal/base
+  - internal/datastore
+  - internal/log
+  - internal/remote_api
+  - internal/urlfetch
+  - urlfetch
+testImports:
+- name: github.com/stretchr/testify
+  version: 69483b4bd14f5845b5a1e55bca19e954e827f1d0
+  subpackages:
+  - assert
