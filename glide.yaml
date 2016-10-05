@@ -3,6 +3,8 @@ import:
 - package: github.com/google/go-github
   subpackages:
   - '...'
+- package: github.com/urfave/cli
+  version: ~1.18.1
 testImport:
 - package: github.com/stretchr/testify
   version: ~1.1.4
