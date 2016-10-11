@@ -13,8 +13,13 @@ import (
 	"golang.org/x/oauth2"
 )
 
+var version = "master"
+
 func main() {
 	app := cli.NewApp()
+	app.Name = "karmahub"
+	app.Version = version
+	app.Author = "Carlos Alexandro Becker (caarlos0@gmail.com)"
 	app.Usage = "get your history of reviews/comments and pull requests/issues opened"
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
