@@ -38,9 +38,12 @@ func main() {
 	}
 	app.Action = func(c *cli.Context) error {
 		token := c.String("token")
+		if token == "" {
+			return cli.NewExitError("Missing GitHub Token", 1)
+		}
 		user := c.String("user")
-		if token == "" || user == "" {
-			return cli.ShowAppHelp(c)
+		if user == "" {
+			return cli.NewExitError("Missing GitHub User/Org", 1)
 		}
 		filter := c.String("filter")
 		ts := oauth2.StaticTokenSource(
