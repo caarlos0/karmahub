@@ -11,12 +11,7 @@ For example, at the company I work, the "rule of thumb" is
 
 I can check my progress like this:
 
-```console
-./karmahub --user caarlos0 --filter "user:ContaAzul is:pr"
-Action    	1m	2m	3m
-Authored	78	87	39
-Reviewed	119	178	104
-```
+[![asciicast](https://asciinema.org/a/96142.png)](https://asciinema.org/a/96142)
 
 So, in this scenario, its clear that I'm not following the rule.
 
