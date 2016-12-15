@@ -1,12 +1,14 @@
-hash: a4464e2cba6868198b4aad6ba7fe39117000c57399bb5a8a351c7755d41972f2
-updated: 2016-10-10T23:15:20.504826487-03:00
+hash: 8897777ef0f50efa8941782272876ebb3b5567718e95ed4fd77f268b7aabe5a6
+updated: 2016-12-14T22:24:00.946827142-02:00
 imports:
+- name: github.com/caarlos0/spin
+  version: f1f63cceace559408b09577f25210edb9b2215c3
 - name: github.com/golang/protobuf
   version: df1d3ca07d2d07bba352d5b73c4313b4e2a6203e
   subpackages:
   - proto
 - name: github.com/google/go-github
-  version: 3e246d29992beb5a5d2fc253adebea86997c45b0
+  version: 939928b912496ed4fbeb6e4beb2467b4fa540af7
   subpackages:
   - github
 - name: github.com/google/go-querystring
