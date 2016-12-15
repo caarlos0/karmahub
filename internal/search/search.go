@@ -1,7 +1,6 @@
 package search
 
 import (
-	"log"
 	"time"
 
 	"github.com/google/go-github/github"
@@ -23,8 +22,11 @@ func Github(client *github.Client) Fn {
 	fn = func(query string) (total int, err error) {
 		result, _, err := client.Search.Issues(query, filter)
 		if _, ok := err.(*github.RateLimitError); ok {
-			log.Println("Rate limit, waiting 10s...")
 			time.Sleep(time.Second * 10)
+			return fn(query)
+		}
+		if _, ok := err.(*github.AcceptedError); ok {
+			time.Sleep(time.Second * 2)
 			return fn(query)
 		}
 		if result.Total != nil {
