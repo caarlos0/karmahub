@@ -29,8 +29,8 @@ func main() {
 			Usage:  "Your GitHub token",
 		},
 		cli.StringFlag{
-			Name:  "user, org, u, o",
-			Usage: "User/Organization to get data from.",
+			Name:  "user, u",
+			Usage: "To collect data from. Defaults to the GitHub token owner",
 		},
 		cli.StringFlag{
 			Name:  "filter",
@@ -43,9 +43,6 @@ func main() {
 			return cli.NewExitError("Missing GitHub Token", 1)
 		}
 		user := c.String("user")
-		if user == "" {
-			return cli.NewExitError("Missing GitHub User/Org", 1)
-		}
 		filter := c.String("filter")
 		ts := oauth2.StaticTokenSource(
 			&oauth2.Token{AccessToken: token},
@@ -53,6 +50,14 @@ func main() {
 		tc := oauth2.NewClient(oauth2.NoContext, ts)
 		client := github.NewClient(tc)
 		fn := search.Github(client)
+
+		if user == "" {
+			guser, _, err := client.Users.Get("")
+			if err != nil {
+				return cli.NewExitError(err.Error(), 1)
+			}
+			user = *guser.Login
+		}
 
 		spin := spin.New("%s Gathering data...")
 		spin.Start()
