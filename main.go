@@ -68,7 +68,7 @@ func main() {
 		}
 		spin.Stop()
 
-		fmt.Println("Action    \t1m\t2m\t3m")
+		fmt.Println("\033[1mAction    \t1m\t2m\t3m\033[0m")
 		fmt.Println("Authored\t" + intsToStr(prs))
 		fmt.Println("Reviewed\t" + intsToStr(crs))
 		return nil
