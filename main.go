@@ -8,6 +8,7 @@ import (
 
 	"github.com/caarlos0/karmahub/internal/karma"
 	"github.com/caarlos0/karmahub/internal/search"
+	"github.com/caarlos0/spin"
 	"github.com/google/go-github/github"
 	"github.com/urfave/cli"
 	"golang.org/x/oauth2"
@@ -28,8 +29,8 @@ func main() {
 			Usage:  "Your GitHub token",
 		},
 		cli.StringFlag{
-			Name:  "user",
-			Usage: "User to get data from.",
+			Name:  "user, u",
+			Usage: "To collect data from. Defaults to the GitHub token owner",
 		},
 		cli.StringFlag{
 			Name:  "filter",
@@ -38,10 +39,10 @@ func main() {
 	}
 	app.Action = func(c *cli.Context) error {
 		token := c.String("token")
-		user := c.String("user")
-		if token == "" || user == "" {
-			return cli.ShowAppHelp(c)
+		if token == "" {
+			return cli.NewExitError("Missing GitHub Token", 1)
 		}
+		user := c.String("user")
 		filter := c.String("filter")
 		ts := oauth2.StaticTokenSource(
 			&oauth2.Token{AccessToken: token},
@@ -50,16 +51,30 @@ func main() {
 		client := github.NewClient(tc)
 		fn := search.Github(client)
 
-		fmt.Println("Action    \t1m\t2m\t3m")
+		if user == "" {
+			guser, _, err := client.Users.Get("")
+			if err != nil {
+				return cli.NewExitError(err.Error(), 1)
+			}
+			user = *guser.Login
+		}
+
+		spin := spin.New("%s Gathering data...")
+		spin.Start()
 		prs, err := karma.Authors(fn, user, filter)
 		if err != nil {
-			return err
+			spin.Stop()
+			return cli.NewExitError(err.Error(), 1)
 		}
-		fmt.Println("Authored\t" + intsToStr(prs))
 		crs, err := karma.Reviews(fn, user, filter)
 		if err != nil {
-			return err
+			spin.Stop()
+			return cli.NewExitError(err.Error(), 1)
 		}
+		spin.Stop()
+
+		fmt.Println("\033[1mAction    \t1m\t2m\t3m\033[0m")
+		fmt.Println("Authored\t" + intsToStr(prs))
 		fmt.Println("Reviewed\t" + intsToStr(crs))
 		return nil
 	}
