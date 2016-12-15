@@ -28,8 +28,8 @@ func main() {
 			Usage:  "Your GitHub token",
 		},
 		cli.StringFlag{
-			Name:  "user",
-			Usage: "User to get data from.",
+			Name:  "user, org, u, o",
+			Usage: "User/Organization to get data from.",
 		},
 		cli.StringFlag{
 			Name:  "filter",
