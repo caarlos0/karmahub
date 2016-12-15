@@ -8,6 +8,7 @@ import (
 
 	"github.com/caarlos0/karmahub/internal/karma"
 	"github.com/caarlos0/karmahub/internal/search"
+	"github.com/caarlos0/spin"
 	"github.com/google/go-github/github"
 	"github.com/urfave/cli"
 	"golang.org/x/oauth2"
@@ -53,16 +54,22 @@ func main() {
 		client := github.NewClient(tc)
 		fn := search.Github(client)
 
-		fmt.Println("Action    \t1m\t2m\t3m")
+		spin := spin.New("%s Gathering data...")
+		spin.Start()
 		prs, err := karma.Authors(fn, user, filter)
 		if err != nil {
-			return err
+			spin.Stop()
+			return cli.NewExitError(err.Error(), 1)
 		}
-		fmt.Println("Authored\t" + intsToStr(prs))
 		crs, err := karma.Reviews(fn, user, filter)
 		if err != nil {
-			return err
+			spin.Stop()
+			return cli.NewExitError(err.Error(), 1)
 		}
+		spin.Stop()
+
+		fmt.Println("Action    \t1m\t2m\t3m")
+		fmt.Println("Authored\t" + intsToStr(prs))
 		fmt.Println("Reviewed\t" + intsToStr(crs))
 		return nil
 	}
