@@ -42,6 +42,8 @@ func main() {
 		if token == "" {
 			return cli.NewExitError("Missing GitHub Token", 1)
 		}
+		spin := spin.New("%s Gathering data...")
+		spin.Start()
 		user := c.String("user")
 		filter := c.String("filter")
 		ts := oauth2.StaticTokenSource(
@@ -50,17 +52,14 @@ func main() {
 		tc := oauth2.NewClient(oauth2.NoContext, ts)
 		client := github.NewClient(tc)
 		fn := search.Github(client)
-
 		if user == "" {
 			guser, _, err := client.Users.Get("")
 			if err != nil {
+				spin.Stop()
 				return cli.NewExitError(err.Error(), 1)
 			}
 			user = *guser.Login
 		}
-
-		spin := spin.New("%s Gathering data...")
-		spin.Start()
 		prs, err := karma.Authors(fn, user, filter)
 		if err != nil {
 			spin.Stop()
