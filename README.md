@@ -16,3 +16,11 @@ I can check my progress like this:
 So, in this scenario, its clear that I'm not following the rule.
 
 Hope this helps you and your team improve the code review practices!
+
+
+## Install
+
+```console
+brew tap caarlos0/formulae
+brew install karmahub
+```
