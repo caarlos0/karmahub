@@ -2,4 +2,4 @@ repo: caarlos0/karmahub
 binary_name: karmahub
 brew:
   repo: caarlos0/homebrew-tap
-  folder: Fomula
+  folder: Formula
