@@ -20,7 +20,7 @@ For example, at the company I work, the "rule of thumb" is
 
 I can check my progress like this:
 
-[![asciicast](https://asciinema.org/a/96142.png)](https://asciinema.org/a/96142)
+[![asciicast](https://asciinema.org/a/113762.png)](https://asciinema.org/a/113762)
 
 So, in this scenario, its clear that I'm not following the rule.
 
