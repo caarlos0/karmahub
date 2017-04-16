@@ -1,13 +1,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
-	"strconv"
-	"strings"
+	"time"
 
-	"github.com/caarlos0/karmahub/internal/karma"
-	"github.com/caarlos0/karmahub/internal/search"
+	"github.com/caarlos0/karmahub"
 	"github.com/caarlos0/spin"
 	"github.com/google/go-github/github"
 	"github.com/urfave/cli"
@@ -38,52 +37,56 @@ func main() {
 		},
 	}
 	app.Action = func(c *cli.Context) error {
-		token := c.String("token")
+		var token = c.String("token")
+		var user = c.String("user")
+		var filter = c.String("filter")
 		if token == "" {
-			return cli.NewExitError("Missing GitHub Token", 1)
+			return cli.NewExitError("missing github token", 1)
 		}
-		spin := spin.New("%s Gathering data...")
+		var spin = spin.New("%s Gathering data...")
 		spin.Start()
-		user := c.String("user")
-		filter := c.String("filter")
-		ts := oauth2.StaticTokenSource(
-			&oauth2.Token{AccessToken: token},
-		)
-		tc := oauth2.NewClient(oauth2.NoContext, ts)
-		client := github.NewClient(tc)
-		fn := search.Github(client)
+
+		var ctx = context.Background()
+		var client = github.NewClient(oauth2.NewClient(
+			ctx,
+			oauth2.StaticTokenSource(&oauth2.Token{AccessToken: token}),
+		))
+		var fn = karmahub.GitHubSearch(ctx, client)
 		if user == "" {
-			guser, _, err := client.Users.Get("")
+			guser, _, err := client.Users.Get(ctx, "")
 			if err != nil {
 				spin.Stop()
 				return cli.NewExitError(err.Error(), 1)
 			}
 			user = *guser.Login
 		}
-		prs, err := karma.Authors(fn, user, filter)
+		prs, err := karmahub.Authors(fn, user, filter)
 		if err != nil {
 			spin.Stop()
 			return cli.NewExitError(err.Error(), 1)
 		}
-		crs, err := karma.Reviews(fn, user, filter)
+		crs, err := karmahub.Reviews(fn, user, filter)
 		if err != nil {
 			spin.Stop()
 			return cli.NewExitError(err.Error(), 1)
 		}
 		spin.Stop()
 
-		fmt.Println("\033[1mAction    \t1m\t2m\t3m\033[0m")
-		fmt.Println("Authored\t" + intsToStr(prs))
-		fmt.Println("Reviewed\t" + intsToStr(crs))
+		fmt.Printf(
+			"\033[1;36mAction    \t%v\t%v\t%v\033[0m\n",
+			month(0),
+			month(-1),
+			month(-2),
+		)
+		fmt.Printf("Authored    \t%v\t%v\t%v\n", prs[0], prs[1], prs[2])
+		fmt.Printf("Reviewed    \t%v\t%v\t%v\n", crs[0], crs[1], crs[2])
 		return nil
 	}
-	app.Run(os.Args)
+	if err := app.Run(os.Args); err != nil {
+		panic(err)
+	}
 }
 
-func intsToStr(arr []int) string {
-	var strs []string
-	for _, n := range arr {
-		strs = append(strs, strconv.Itoa(n))
-	}
-	return strings.Join(strs, "\t")
+func month(i int) string {
+	return time.Now().AddDate(0, i, 0).UTC().Format("Jan")
 }
