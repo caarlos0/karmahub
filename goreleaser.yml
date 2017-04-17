@@ -1,5 +1,9 @@
 build:
   main: ./cmd/main/main.go
+  goos:
+    - windows
+    - darwin
+    - linux
   goarch:
     - amd64
 brew:
@@ -7,3 +11,6 @@ brew:
     owner: caarlos0
     name: homebrew-tap
   folder: Formula
+fpm:
+  formats:
+    - deb
