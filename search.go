@@ -1,14 +1,15 @@
-package search
+package karmahub
 
 import (
+	"context"
 	"time"
 
 	"github.com/google/go-github/github"
 )
 
-// Fn is function that searches somewhere and returns the count of
+// SearchFn is function that searches somewhere and returns the count of
 // results only (or error)
-type Fn func(query string) (total int, err error)
+type SearchFn func(query string) (total int, err error)
 
 var filter = &github.SearchOptions{
 	ListOptions: github.ListOptions{
@@ -16,11 +17,11 @@ var filter = &github.SearchOptions{
 	},
 }
 
-// Github is a Fn impl for github
-func Github(client *github.Client) Fn {
-	var fn Fn
+// GitHubSearch is a SearchFn impl for github
+func GitHubSearch(ctx context.Context, client *github.Client) SearchFn {
+	var fn SearchFn
 	fn = func(query string) (total int, err error) {
-		result, _, err := client.Search.Issues(query, filter)
+		result, _, err := client.Search.Issues(ctx, query, filter)
 		if _, ok := err.(*github.RateLimitError); ok {
 			time.Sleep(time.Second * 10)
 			return fn(query)

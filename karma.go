@@ -1,21 +1,19 @@
-package karma
+package karmahub
 
 import (
 	"time"
-
-	"github.com/caarlos0/karmahub/internal/search"
 )
 
 // MONTHS of data gathered
 const MONTHS = 3
 
 // Authors in each of the last MONTHS
-func Authors(search search.Fn, login, filter string) (result []int, err error) {
+func Authors(search SearchFn, login, filter string) (result []int, err error) {
 	return totals(search, filter+" author:"+login)
 }
 
 // Reviews in each of the last MONTHS
-func Reviews(search search.Fn, login, filter string) (result []int, err error) {
+func Reviews(search SearchFn, login, filter string) (result []int, err error) {
 	mine, err := totals(search, filter+" commenter:"+login+" author:"+login)
 	if err != nil {
 		return result, err
@@ -30,13 +28,13 @@ func Reviews(search search.Fn, login, filter string) (result []int, err error) {
 	return result, err
 }
 
-func totals(search search.Fn, query string) (result []int, err error) {
+func totals(search SearchFn, query string) (result []int, err error) {
 	var counts []int
 	for i := 1; i <= MONTHS; i++ {
 		d := time.Now().AddDate(0, i*-1, 0).Format("2006-01-02")
-		count, err := search(query + " created:>" + d)
-		if err != nil {
-			return result, err
+		count, serr := search(query + " created:>" + d)
+		if serr != nil {
+			return result, serr
 		}
 		counts = append(counts, count)
 	}
@@ -44,5 +42,5 @@ func totals(search search.Fn, query string) (result []int, err error) {
 	for i := 1; i <= MONTHS-1; i++ {
 		result = append(result, counts[i]-counts[i-1])
 	}
-	return result, err
+	return
 }
