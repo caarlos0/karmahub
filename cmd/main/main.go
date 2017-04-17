@@ -80,6 +80,12 @@ func main() {
 		)
 		fmt.Printf("Authored    \t%v\t%v\t%v\n", prs[0], prs[1], prs[2])
 		fmt.Printf("Reviewed    \t%v\t%v\t%v\n", crs[0], crs[1], crs[2])
+		fmt.Printf(
+			"Score    \t%.1f\t%.1f\t%.1f\n",
+			float32(crs[0])/float32(prs[0]),
+			float32(crs[1])/float32(prs[1]),
+			float32(crs[2])/float32(prs[2]),
+		)
 		return nil
 	}
 	if err := app.Run(os.Args); err != nil {
