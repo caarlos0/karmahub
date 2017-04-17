@@ -2,6 +2,6 @@ language: go
 go: 1.8
 install: make setup
 script: make ci
-after_success: test -n "$TRAVIS_TAG" && curl -sL https://git.io/goreleaser | bash
+after_success: test -n "$TRAVIS_TAG" && gem install fpm && curl -sL https://git.io/goreleaser | bash
 notifications:
   email: false
