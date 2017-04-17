@@ -30,5 +30,5 @@ Hope this helps you and your team improve the code review practices!
 ## Install
 
 ```console
-brew tap caarlos0/tap/karmahub
+brew install caarlos0/tap/karmahub
 ```
