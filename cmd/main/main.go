@@ -80,6 +80,7 @@ func main() {
 		)
 		fmt.Printf("Authored    \t%v\t%v\t%v\n", prs[0], prs[1], prs[2])
 		fmt.Printf("Reviewed    \t%v\t%v\t%v\n", crs[0], crs[1], crs[2])
+		fmt.Printf("Karma score \t%v\t%v\t%v\n", crs[0]/prs[0], crs[1]/prs[1], crs[2]/prs[2])
 		return nil
 	}
 	if err := app.Run(os.Args); err != nil {
