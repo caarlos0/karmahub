@@ -1,5 +1,5 @@
 build:
-  main: ./cmd/main/main.go
+  main: ./cmd/karmahub/main.go
   goos:
     - windows
     - darwin
