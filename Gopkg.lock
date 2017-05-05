@@ -1,10 +1,10 @@
-memo = "6063f2f02311746e7c4f9cefb1cb0848aad0c367be0402c756392c43aa1b038e"
+memo = "59d466887ebb3c4fbdff911ab0f898bc71111729a98928a20ad6129f0443cf91"
 
 [[projects]]
-  branch = "master"
   name = "github.com/caarlos0/spin"
   packages = ["."]
-  revision = "0b4d21c2f37a6067fd63ef0e4e7d037c165ed541"
+  revision = "ac25467273ecdf236d2d83a25c5329d5863d375f"
+  version = "v1.1.0"
 
 [[projects]]
   name = "github.com/davecgh/go-spew"
@@ -16,13 +16,13 @@ memo = "6063f2f02311746e7c4f9cefb1cb0848aad0c367be0402c756392c43aa1b038e"
   branch = "master"
   name = "github.com/golang/protobuf"
   packages = ["proto"]
-  revision = "2bba0603135d7d7f5cb73b2125beeda19c09f4ef"
+  revision = "18c9bb3261723cd5401db4d0c9fbc5c3b6c70fe8"
 
 [[projects]]
   branch = "master"
   name = "github.com/google/go-github"
   packages = ["github"]
-  revision = "de33c46a823d3f723514fc5333b75ef2e937b7df"
+  revision = "e8d46665e050742f457a58088b1e6b794b2ae966"
 
 [[projects]]
   branch = "master"
@@ -31,10 +31,28 @@ memo = "6063f2f02311746e7c4f9cefb1cb0848aad0c367be0402c756392c43aa1b038e"
   revision = "53e6ce116135b80d037921a7fdd5138cf32d7a8a"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/inconshreveable/mousetrap"
+  packages = ["."]
+  revision = "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75"
+
+[[projects]]
   name = "github.com/pmezard/go-difflib"
   packages = ["difflib"]
-  revision = "c0b812dadcf4498dede02bb7f0c5c478be997e34"
+  revision = "792786c7400a136282c1664665ae0a8db921c6c2"
   version = "v1.0.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/spf13/cobra"
+  packages = ["."]
+  revision = "db6b9a8b3f3f400c8ecb4a4d7d02245b8facad66"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/spf13/pflag"
+  packages = ["."]
+  revision = "80fe0fb4eba54167e2ccae1c6c950e72abf61b73"
 
 [[projects]]
   name = "github.com/stretchr/testify"
@@ -44,15 +62,9 @@ memo = "6063f2f02311746e7c4f9cefb1cb0848aad0c367be0402c756392c43aa1b038e"
 
 [[projects]]
   branch = "master"
-  name = "github.com/urfave/cli"
-  packages = ["."]
-  revision = "8ba6f23b6e36d03666a14bd9421f5e3efcb59aca"
-
-[[projects]]
-  branch = "master"
   name = "golang.org/x/net"
   packages = ["context"]
-  revision = "5602c733f70afc6dcec6766be0d5034d4c4f14de"
+  revision = "feeb485667d1fdabe727840fe00adc22431bc86e"
 
 [[projects]]
   branch = "master"

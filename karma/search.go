@@ -1,4 +1,4 @@
-package karmahub
+package karma
 
 import (
 	"context"

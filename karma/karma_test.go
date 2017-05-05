@@ -1,4 +1,4 @@
-package karmahub
+package karma
 
 import (
 	"errors"
@@ -15,7 +15,7 @@ func TestAuthors(t *testing.T) {
 		return 10 * c, nil
 	}
 
-	res, err := Authors(fn, "caarlos0", "is:pr")
+	res, err := Authors(fn, "caarlos0", "is:pr", 3)
 	assert.NoError(err)
 	assert.Equal([]int{10, 10, 10}, res)
 }
@@ -29,7 +29,7 @@ func TestReviews(t *testing.T) {
 		return results[c-1], nil
 	}
 
-	res, err := Reviews(fn, "caarlos0", "is:pr")
+	res, err := Reviews(fn, "caarlos0", "is:pr", 3)
 	assert.NoError(err)
 	assert.Equal([]int{10, 6, 5}, res)
 }
@@ -40,10 +40,10 @@ func TestErrs(t *testing.T) {
 		return 0, errors.New("BREAK")
 	}
 
-	res, err := Authors(fn, "caarlos0", "is:pr")
+	res, err := Authors(fn, "caarlos0", "is:pr", 3)
 	assert.Error(err)
 	assert.Empty(res)
-	res, err = Reviews(fn, "caarlos0", "is:pr")
+	res, err = Reviews(fn, "caarlos0", "is:pr", 3)
 	assert.Error(err)
 	assert.Empty(res)
 }
