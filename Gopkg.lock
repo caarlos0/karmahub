@@ -1,10 +1,10 @@
-memo = "b116e214eec495c939d421db3b9ed3cc6a8677ffb76972bdf9849de02247898a"
+memo = "59d466887ebb3c4fbdff911ab0f898bc71111729a98928a20ad6129f0443cf91"
 
 [[projects]]
   name = "github.com/caarlos0/spin"
   packages = ["."]
-  revision = "17b0207c4020c9d7144a53d314e192703d229fb3"
-  version = "v1.0.1"
+  revision = "ac25467273ecdf236d2d83a25c5329d5863d375f"
+  version = "v1.1.0"
 
 [[projects]]
   name = "github.com/davecgh/go-spew"
