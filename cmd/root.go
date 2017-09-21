@@ -86,7 +86,11 @@ of how much are you actually contributing to the code review practices.`,
 		// karma
 		fmt.Printf("Karma    ")
 		for i := 0; i < months; i++ {
-			fmt.Printf("\t%.1f", float32(crs[i])/float32(prs[i]))
+			var karma = float32(crs[i]) / float32(prs[i])
+			if prs[i] == 0 {
+				karma = float32(crs[i])
+			}
+			fmt.Printf("\t%.1f", karma)
 		}
 		fmt.Printf("\n")
 		return nil
