@@ -2,13 +2,6 @@ language: go
 go: 1.9
 install: make setup
 script: make ci
-before_deploy:
-  - gem install fpm
-deploy:
-  skip_cleanup: true
-  provider: script
-  script: curl -sL https://git.io/goreleaser | bash
-  on:
-    tags: true
+after_success: test -n "$TRAVIS_TAG" && gem install fpm && curl -sL https://git.io/goreleaser | bash
 notifications:
   email: false
