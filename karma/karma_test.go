@@ -8,7 +8,6 @@ import (
 )
 
 func TestAuthors(t *testing.T) {
-	assert := assert.New(t)
 	var c int
 	fn := func(query string) (total int, err error) {
 		c++
@@ -16,12 +15,11 @@ func TestAuthors(t *testing.T) {
 	}
 
 	res, err := Authors(fn, "caarlos0", "is:pr", 3)
-	assert.NoError(err)
-	assert.Equal([]int{10, 10, 10}, res)
+	assert.NoError(t, err)
+	assert.Equal(t, []int{10, 10, 10}, res)
 }
 
 func TestReviews(t *testing.T) {
-	assert := assert.New(t)
 	var c int
 	results := []int{10, 15, 18, 20, 31, 39}
 	fn := func(query string) (total int, err error) {
@@ -30,20 +28,19 @@ func TestReviews(t *testing.T) {
 	}
 
 	res, err := Reviews(fn, "caarlos0", "is:pr", 3)
-	assert.NoError(err)
-	assert.Equal([]int{10, 6, 5}, res)
+	assert.NoError(t, err)
+	assert.Equal(t, []int{10, 6, 5}, res)
 }
 
 func TestErrs(t *testing.T) {
-	assert := assert.New(t)
 	fn := func(query string) (total int, err error) {
 		return 0, errors.New("BREAK")
 	}
 
 	res, err := Authors(fn, "caarlos0", "is:pr", 3)
-	assert.Error(err)
-	assert.Empty(res)
+	assert.Error(t, err)
+	assert.Empty(t, res)
 	res, err = Reviews(fn, "caarlos0", "is:pr", 3)
-	assert.Error(err)
-	assert.Empty(res)
+	assert.Error(t, err)
+	assert.Empty(t, res)
 }
