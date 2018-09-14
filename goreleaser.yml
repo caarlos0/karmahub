@@ -10,6 +10,7 @@ brew:
     owner: caarlos0
     name: homebrew-tap
   folder: Formula
-fpm:
+  description: Compares the amount of issues and pull requests you created with the amount of comments and code reviews you did
+nfpm:
   formats:
     - deb
